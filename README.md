@@ -51,9 +51,6 @@ streamlit run app.py
 ## Contributing
 Contributions are welcome! Please fork the repo and submit a pull request. For major changes, open an issue first to discuss what you would like to change.
 
-## License
-MIT
-
 ## Contact
 Maintained by [yashika-005](https://github.com/yashika-005).
 
