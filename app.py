@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from models.qa_manager import QAManager
 from utils.document_processor import process_pdf, add_document_to_knowledge_base
-from config.settings import GRATUITY_DB_PATH, LEAVE_DB_PATH, DATA_DIR
+from config.settings import GRATUITY_DB_PATH, LEAVE_DB_PATH, UPSKILLING_DB_PATH, DATA_DIR
 
 def initialize_session_state():
     """Initialize session state variables"""
@@ -38,7 +38,14 @@ def handle_document_upload(uploaded_file, doc_type):
                 add_document_to_knowledge_base(uploaded_file.name, combined_text)
                 
                 status.write("Creating vector store...")
-                store_path = GRATUITY_DB_PATH if "gratuity" in doc_type.lower() else LEAVE_DB_PATH
+                if "gratuity" in doc_type.lower():
+                    store_path = GRATUITY_DB_PATH
+                elif "leave" in doc_type.lower():
+                    store_path = LEAVE_DB_PATH
+                elif "upskilling" in doc_type.lower():
+                    store_path = UPSKILLING_DB_PATH
+                else:
+                    store_path = LEAVE_DB_PATH  # Default fallback
                 vectordb, doc_count = st.session_state.qa_manager.vector_store.create_vectorstore(docs, store_path)
                 
                 # Mark file as processed
@@ -58,15 +65,17 @@ def display_system_status():
     """Display the current system status"""
     loaded_dbs = st.session_state.qa_manager.vector_store.load_existing_stores()
     
-    cols = st.columns(4)
+    cols = st.columns(5)
     with cols[0]:
         st.write("📚 Gratuity DB:", "✅" if loaded_dbs['gratuity'] else "❌")
     with cols[1]:
         st.write("📚 Leave DB:", "✅" if loaded_dbs['leave'] else "❌")
     with cols[2]:
+        st.write("📚 Upskilling DB:", "✅" if loaded_dbs['upskilling'] else "❌")
+    with cols[3]:
         kb_exists = os.path.exists(os.path.join(DATA_DIR, "knowledge_base.json"))
         st.write("📖 Knowledge Base:", "✅" if kb_exists else "❌")
-    with cols[3]:
+    with cols[4]:
         if st.button("📤 Show/Hide Upload Section"):
             st.session_state.show_upload = not st.session_state.show_upload
             st.rerun()
@@ -93,7 +102,7 @@ def main():
             with col1:
                 doc_type = st.selectbox(
                     "Select Document Type",
-                    ["Gratuity Policy", "Leave Policy"],
+                    ["Gratuity Policy", "Leave Policy", "Upskilling Policy"],
                     help="Choose the type of policy document"
                 )
             with col2:
