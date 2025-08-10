@@ -1,0 +1,28 @@
+# Core Dependencies
+fastapi>=0.104.0
+uvicorn>=0.24.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+
+# LangChain & LLM
+langchain>=0.1.0
+langchain-groq>=0.1.0
+langchain-community>=0.0.10
+langchain-core>=0.1.0
+
+# Vector Database
+chromadb>=0.4.13
+
+# Document Processing
+pypdf>=3.15.0
+sentence-transformers>=2.2.0
+logging
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.20.0
+pytest-cov>=4.0.0
+
+# Development & Optional
+streamlit>=1.25.0  # Only if you're using Streamlit for UI
