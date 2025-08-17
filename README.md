@@ -196,4 +196,4 @@ LOG_LEVEL=INFO
 ENABLE_DEBUG=false
 ---
 
-*This project leverages state-of-the-art AI and RAG techniques to revolutionize HR policy management and employee onboarding experiences.*
+
