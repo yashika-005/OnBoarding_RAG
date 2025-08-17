@@ -1,7 +1,8 @@
-import streamlit as st
-import requests
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import List, Dict, Any
+
+import requests
+import streamlit as st
 
 # API configuration
 API_BASE_URL = "http://127.0.0.1:8000/api/v1"  # Correct FastAPI base path
