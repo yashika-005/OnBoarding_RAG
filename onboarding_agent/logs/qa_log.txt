@@ -1,2 +1,0 @@
-2025-08-10 11:57:29,712 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
-2025-08-10 11:57:36,044 - INFO - QA Manager initialized

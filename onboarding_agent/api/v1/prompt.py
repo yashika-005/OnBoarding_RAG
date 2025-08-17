@@ -9,16 +9,20 @@ from onboarding_agent.service.qa_manager import QAManager
 router = APIRouter()
 qa_manager = QAManager()
 
-@router.get("/", response_model=List[PolicyBase])
+@router.get("/policies", response_model=List[PolicyBase])
 async def get_policies():
     """Get all policies from the policy mapping file."""
     return policies_db
 
 @router.post("/ask")
-async def ask_question(request:QuestionRequest):#serialization 
-    """Ask a question about HR policies.Ask questions from knowledge base """
+async def ask_question(request: QuestionRequest):
+    """Ask a question about HR policies. Ask questions from knowledge base."""
     try:
-        answer = qa_manager.ask_question(request.question)
-        return {"answer": answer}
+        answer, source, context = qa_manager.get_answer(request.question)
+        return {
+            "answer": answer,
+            "source": source,
+            "context": context
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
